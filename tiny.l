@@ -9,9 +9,8 @@
 %{
 #include "globals.h"
 #include "util.h"
+#include "scan.h"
 /* lexeme of identifier or reserved words */
-#define MAXTOKENLEN 40
-char tokenString[MAXTOKENLEN+1];
 %}
 
 %option noyywrap
