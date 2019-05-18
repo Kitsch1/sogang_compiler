@@ -9,7 +9,7 @@
 %{
 #include "globals.h"
 #include "util.h"
-/* lexeme of identifier or reserved word */
+/* lexeme of identifier or reserved words */
 #define MAXTOKENLEN 40
 char tokenString[MAXTOKENLEN+1];
 %}
