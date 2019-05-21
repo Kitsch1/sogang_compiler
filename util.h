@@ -19,7 +19,7 @@ TreeNode * newStmtNode(StmtKind);
 TreeNode * newExpNode(ExpKind);
 
 /* creates a new declaration node for syntax tree construction */
-TreeNode * newDeclNode(/*DeclKind*/);
+TreeNode * newDeclNode(DeclKind);
 
 /* allcates and makes a new copy of an existing string */
 char * copyString(char *);
