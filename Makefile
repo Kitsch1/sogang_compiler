@@ -13,4 +13,4 @@ lex.yy.c: tiny.l globals.h util.h
 	flex tiny.l
 
 clean :
-	rm *.o lex.yy.c 20121578 
+	rm *.o lex.yy.c project3_21
