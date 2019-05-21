@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -w
-TARGET = 20121578
+TARGET = project3_21
 OBJECTS = main.o util.o lex.o
 
 $(TARGET): $(OBJECTS)
