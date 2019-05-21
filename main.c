@@ -5,6 +5,8 @@
 /* 2019 Compiler Prj by Taehoon Kim                   */
 /******************************************************/
 
+// hi github test
+
 #include "globals.h"
 
 /* set NO_PARSE to TRUE to get a scanner-only compiler */
