@@ -155,6 +155,7 @@ static void printSpaces(void)
 void printTree( TreeNode * tree )
 { int i;
   INDENT;
+  /*
   while (tree != NULL) {
     printSpaces();
     if (tree->nodekind==StmtK)
@@ -201,5 +202,6 @@ void printTree( TreeNode * tree )
          printTree(tree->child[i]);
     tree = tree->sibling;
   }
+  */
   UNINDENT;
 }

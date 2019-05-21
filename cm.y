@@ -21,9 +21,8 @@ static TreeNode * savedTree; /* stores syntax tree for later return */
 
 /* need to add tokens */
 
-%% /* Grammar for C Minus */
+%% /* Grammar for C Minus. Need to add */
 
-/* need to add */
 program     : decl_list
                 { savedTree = $1; }
             ;
