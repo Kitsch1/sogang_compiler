@@ -21,10 +21,45 @@ static TreeNode * savedTree; /* stores syntax tree for later return */
 
 /* need to add tokens */
 
+%token  IF ELSE INT RETURN VOID WHILE
+%token  ID NUM
+%token  SEMI
+%left   COMMA
+%right  ASSIGN
+%left   EQ NEQ
+%left   LT LEQ RT REQ
+%left   TIMES OVER
+%left   PLUS MINUS
+%right  LPAREN RPAREN LSB RSB
+
+
 %% /* Grammar for C Minus. Need to add */
 
 program     : decl_list
                 { savedTree = $1; }
+            ;
+
+decl_list   : decl_list decl_list
+            | decl
+            ;
+
+decl        : var_decl
+            | fun_decl
+            ;
+
+var_decl    : type_spec ID SEMI
+            | type_spec ID LSB NUM RSB SEMI
+            ;
+
+type_spec   : INT
+            | VOID
+            ;
+
+fun_decl    : type_spec ID LPAREN params RPAREN compound-stmt
+            ;
+            
+params      : param-list
+            | void
             ;
 
 %%
