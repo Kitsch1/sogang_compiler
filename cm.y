@@ -24,6 +24,7 @@ static TreeNode * savedTree; /* stores syntax tree for later return */
 %token  IF ELSE INT RETURN VOID WHILE
 %token  ID NUM
 %token  SEMI
+%token  LBRACE RBRACE
 %left   COMMA
 %right  ASSIGN
 %left   EQ NEQ
@@ -35,32 +36,126 @@ static TreeNode * savedTree; /* stores syntax tree for later return */
 
 %% /* Grammar for C Minus. Need to add */
 
-program     : decl_list
-                { savedTree = $1; }
-            ;
+program         : decl_list
+                    { savedTree = $1; }
+                ;
 
-decl_list   : decl_list decl_list
-            | decl
-            ;
+decl_list       : decl_list decl_list
+                | decl
+                ;
 
-decl        : var_decl
-            | fun_decl
-            ;
+decl            : var_decl
+                | fun_decl
+                ;
 
-var_decl    : type_spec ID SEMI
-            | type_spec ID LSB NUM RSB SEMI
-            ;
+var_decl        : type_spec ID SEMI
+                | type_spec ID LSB NUM RSB SEMI
+                ;
 
-type_spec   : INT
-            | VOID
-            ;
+type_spec       : INT
+                | VOID
+                ;
 
-fun_decl    : type_spec ID LPAREN params RPAREN compound-stmt
-            ;
+fun_decl        : type_spec ID LPAREN params RPAREN compound-stmt
+                ;
             
-params      : param-list
-            | void
-            ;
+params          : param-list
+                | void
+                ;
+
+param_list      : param_list COMMA param
+                | param
+                ;
+
+param           : type_spec ID
+                | type_spec LSB RSB
+                ;
+
+compound_stmt   : LBRACE local_decl stmt_list RBRACE
+                ;
+
+local_decl      : local_decl var_decl
+                | empty
+                ;
+
+stmt_list       : stmt_list stmt
+                | empty
+                ;
+
+stmt            : expr_stmt
+                | compound_stmt
+                | selection_stmt
+                | iteration_stmt
+                | return_stmt
+                ;
+
+expr_stmt       : expr SEMI
+                | SEMI
+                ;
+
+selection_stmt  : IF LPAREN expr RPAREN stmt
+                | IF LPAREN expr RPAREN stmt ELSE stmt
+                ;
+
+iteration_stmt  : WHILE LPAREN expr RPAREN stmt
+                ;
+
+return_stmt     : RETURN SEMI
+                | RETURN expr SEMI
+                ;
+
+expr            : var ASSIGN expr
+                | simple_expr
+                ;
+
+var             : ID
+                | ID LSB expr RSB
+                ;
+
+simple_expr     : additive_expr relop additive_expr
+                | additive_expr
+                ;
+
+relop           : LEQ
+                | LT
+                | REQ
+                | RT
+                | EQ
+                | NEQ
+                ;
+
+additive_expr   : additive_expr addop term | term
+                ;
+
+addop           : PLUS
+                | MINUS
+                ;
+
+
+term            : term mulop factor
+                | factor
+                ;
+
+mulop           : TIMES
+                | OVER
+                ;
+
+factor          : LPAREN epxr RPAREN
+                | var
+                | call
+                | NUM
+                ;
+
+call            : ID LPAREN args RPAREN
+                ;
+
+args            : arg_list
+                | empty
+                ;
+
+arg_list        : arg_list COMMA expr
+                | expr
+                ;
 
 %%
 
