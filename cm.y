@@ -119,7 +119,7 @@ type_spec       : INT
                     }
                 ;
 
-fun_decl        : type_spec ID LPAREN params RPAREN compound-stmt
+fun_decl        : type_spec ID LPAREN params RPAREN compound_stmt
                 ;
             
 params          : param-list
