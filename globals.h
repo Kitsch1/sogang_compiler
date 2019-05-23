@@ -45,27 +45,44 @@ extern int lineno; /* source line number for listing */
 
 /******** syntax tree for parsing ********/
 
-typedef enum {StmtK,ExpK,DeclK} NodeKind;
-typedef enum {IfK,RepeatK,AssignK,ReadK,WriteK} StmtKind; /* need to change */
-typedef enum {OpK,ConstK,IdK} ExpKind; /* need to change */
-typedef enum {VarK,FuncK} DeclKind; /* Array needed? */
+typedef enum {StmtK,ExpK,DeclK,TypeK} NodeKind;
+typedef enum {ExprK,SelectK,IterK,RetK} StmtKind; /* need to change */
+typedef enum {AssignK,OpK,IdK,IdArrK,CallK} ExpKind; /* need to change */
+typedef enum {VarK,FuncK,ArrK} DeclKind; /* Array needed? */
+typedef enum {VoidK,IntegerK} TypeKind;
 
 /* ExpType is used for type checking */
 typedef enum {Void,Integer} ExpType; /* No boolean? */
 
 #define MAXCHILDREN 3
 
+typedef struct _arrayVar
+{
+	char *name;
+	int length;
+} arrayVar;
+
 typedef struct treeNode
-	{ struct treeNode * child[MAXCHILDREN];
-	  struct treeNode * sibling;
-	  int lineno;
-	  NodeKind nodekind;
-	  union { StmtKind stmt; ExpKind exp; DeclKind decl; } kind;
-	  union { TokenType op;
-	  	  int val;
-		  char * name; } attr;
-	  ExpType type; /* for type checking of exps */
-	} TreeNode;
+{
+	struct treeNode *child[MAXCHILDREN];
+	struct treeNode *sibling;
+	int lineno;
+	NodeKind nodekind;
+	union {
+		StmtKind stmt;
+		ExpKind exp;
+		DeclKind decl;
+		TypeKind type;
+	} kind;
+	union {
+		TokenType op;
+		ExpType type;
+		int val;
+		char *name;
+		arrayVar arr;
+	} attr;
+	ExpType type; /* for type checking of exps */
+} TreeNode;
 
 /******** Flags for tracing ********/
 

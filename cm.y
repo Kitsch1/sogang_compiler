@@ -14,6 +14,7 @@
 
 #define YYSTYPE TreeNode *
 static char * savedName; /* for use in assignments */
+static int savedLength;
 static int savedLineNo;  /* ditto */
 static TreeNode * savedTree; /* stores syntax tree for later return */
 
@@ -22,38 +23,100 @@ static TreeNode * savedTree; /* stores syntax tree for later return */
 /* need to add tokens */
 
 %token  IF ELSE INT RETURN VOID WHILE
+
 %token  ID NUM
+
 %token  SEMI
-%token  LBRACE RBRACE
+
+/**/
+
 %left   COMMA
 %right  ASSIGN
 %left   EQ NEQ
 %left   LT LEQ RT REQ
 %left   TIMES OVER
 %left   PLUS MINUS
-%right  LPAREN RPAREN LSB RSB
+%right  LPAREN RPAREN LBRACE RBRACE LSB RSB
 
 
+/* $$ is result */
+/* $n is n'th term in sytanx rule */
 %% /* Grammar for C Minus. Need to add */
 
 program         : decl_list
                     { savedTree = $1; }
                 ;
 
-decl_list       : decl_list decl_list
+decl_list       : decl_list decl
+                    {
+                        YYSTYPE t = $1;
+                        if(t != NULL)
+                        {
+                            while(t->sibling != NULL)
+                            {
+                                t = t->sibling;
+                            }
+                            t->sibling = $2;
+                            $$ = $1;
+                        }
+                        else
+                        {
+                            $$ = $2;
+                        }
+                    }
                 | decl
+                    {
+                        $$ = $1;
+                    }
                 ;
 
 decl            : var_decl
+                    {
+                        $$ = $1;
+                    }
                 | fun_decl
+                    {
+                        $$ = $1;
+                    }
                 ;
 
-var_decl        : type_spec ID SEMI
-                | type_spec ID LSB NUM RSB SEMI
+identifier      : ID
+                    {
+                        savedName = copyString(tokenString);
+                    }
+                ;
+
+arr_len         : NUM
+                    {
+                        savedLength = atoi(tokenString);
+                    }
+                ;
+
+var_decl        : type_spec identifier SEMI
+                    {
+                        $$ = newDeclNode(VarK);
+                        $$->attr.name = savedName;
+                        $$->child[0] = $1;
+                    }
+                | type_spec identifier LSB arr_len RSB SEMI
+                    {
+                        $$ = newDeclNode(ArrK);
+                        $$->attr.arrayVar.name = savedName;
+                        $$->attr.arrayVar.length = savedLength;
+                        $$->child[0] = $1;
+                    }
                 ;
 
 type_spec       : INT
+                    {
+                        $$ = newTypeNode(IntegerK);
+                        $$->attr.type = Integer;
+                    }
                 | VOID
+                    {
+                        $$ = newTypeNode(VoidK);
+                        $$->attr.type = Void;
+                    }
                 ;
 
 fun_decl        : type_spec ID LPAREN params RPAREN compound-stmt
