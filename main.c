@@ -23,7 +23,7 @@
 /* At proj1, I think util.h and scan.h should be added */
 #include "util.h"
 #if NO_PARSE
-/* #include "scan.h" */
+#include "scan.h"
 #else
 #include "parse.h"
 #if !NO_ANALYZE

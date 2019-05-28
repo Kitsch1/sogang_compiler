@@ -9,10 +9,10 @@ $(TARGET): $(OBJECTS)
 main.o: main.c globals.h util.h scan.h
 	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS) -lfl
 
-lex.o: lex.yy.c
+lex.o: lex.yy.c globals.h util.h scan.h
 	$(CC) $(CFLAGS) -c lex.yy.c -o lex.o
 
-lex.yy.c: tiny.l globals.h util.h scan.h
+lex.yy.c: tiny.l
 	flex tiny.l
 
 cminus.o: cminus.tab.c cminus.tab.h
