@@ -1,7 +1,7 @@
 CC = gcc
-CFLAGS = -w
+CFLAGS = -w -std=gnu99
 TARGET = project3_21
-OBJECTS = main.o util.o lex.o cminus.o	
+OBJECTS = main.o util.o lex.o cminus.o
 
 $(TARGET): $(OBJECTS)
 	$(CC) $(CFLAGS) $(OBJECTS) -o $(TARGET)
