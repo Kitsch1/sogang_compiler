@@ -18,8 +18,8 @@ lex.yy.c: tiny.l
 cminus.o: cminus.c cminus.h
 	$(CC) $(CFLAGS) -c cminus.c
 
-cminus.c cminus.h: cminus.y
-	bison -d cminus.y
+cminus.c cminus.h: cm.y
+	bison -d cm.y
 
 clean :
 	rm *.o lex.yy.c project3_21
