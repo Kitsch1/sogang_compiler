@@ -15,8 +15,8 @@ lex.o: lex.yy.c globals.h util.h scan.h
 lex.yy.c: tiny.l
 	flex tiny.l
 
-cminus.o: cminus.tab.c cminus.tab.h
-	$(CC) $(CFLAGS) -c cminus.tab.c
+cminus.o: cminus.c cminus.h
+	$(CC) $(CFLAGS) -c cminus.c
 
 cminus.c cminus.h: cminus.y
 	bison -d cminus.y
