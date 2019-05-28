@@ -25,6 +25,8 @@
 /* MAXRESERVED : the number of reserved words */
 #define MAXRESERVED 6
 
+typedef int TokenType;
+
 // typedef enum
 // 	/* book-keeping tokens */
 // 	{ENDFILE,ERROR,COM_ERROR,COMMENT,
