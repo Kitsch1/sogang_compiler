@@ -1,22 +1,25 @@
 CC = gcc
 CFLAGS = -w
 TARGET = project3_21
-OBJECTS = main.o util.o lex.o
+OBJECTS = main.o util.o lex.o cminus.o	
 
 $(TARGET): $(OBJECTS)
 	$(CC) $(CFLAGS) $(OBJECTS) -o $(TARGET)
 
+main.o: main.c globals.h util.h scan.h
+	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS) -lfl
+
 lex.o: lex.yy.c
 	$(CC) $(CFLAGS) -c lex.yy.c -o lex.o
 
-lex.yy.c: tiny.l globals.h util.h
+lex.yy.c: tiny.l globals.h util.h scan.h
 	flex tiny.l
 
-cminus.tab.o: cminus.tab.c cminus.tab.h
+cminus.o: cminus.tab.c cminus.tab.h
 	$(CC) $(CFLAGS) -c cminus.tab.c
 
-cminus.tab.c cminus.tab.h: yacc/cminus.y
-	bison -d yacc/cminus.y
+cminus.c cminus.h: cminus.y
+	bison -d cminus.y
 
 clean :
 	rm *.o lex.yy.c project3_21
