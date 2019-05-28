@@ -27,7 +27,7 @@
 
 typedef enum
 	/* book-keeping tokens */
-	{ENDFILE,ERROR,COM_ERROR,
+	{ENDFILE,ERROR,COM_ERROR,COMMENT,
 	/* reserved words */
 	ELSE,IF,INT,RETURN,VOID,WHILE,
 	/* multicharacter tokens */
@@ -47,7 +47,7 @@ extern int lineno; /* source line number for listing */
 
 typedef enum {StmtK,ExpK,DeclK,TypeK} NodeKind;
 typedef enum {ExprK,SelectK,IterK,RetK} StmtKind; /* need to change */
-typedef enum {AssignK,OpK,IdK,IdArrK,CallK} ExpKind; /* need to change */
+typedef enum {AssignK,OpK,ConstK,IdK,IdArrK,CallK} ExpKind; /* need to change */
 typedef enum {VarK,FuncK,ArrK} DeclKind; /* Array needed? */
 typedef enum {VoidK,IntegerK} TypeKind;
 

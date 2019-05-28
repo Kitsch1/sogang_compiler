@@ -61,7 +61,10 @@ whitespace  [ \t\b]+
 		    if(c == '*')
 		    { while ( (c = input()) == '*' );
 		      if (c=='\n') lineno++;
-		      if ( c == '/') break; /* End of Comment */
+		      if ( c == '/') //break; /* End of Comment */
+					{
+						retur COMMENT;
+					}
 		    }
 		    if(c == EOF )
 		    {
