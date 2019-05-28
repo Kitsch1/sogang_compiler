@@ -11,6 +11,7 @@
 #include "util.h"
 #include "scan.h"
 /* lexeme of identifier or reserved words */
+char tokenString[MAXTOKENLEN+1];
 %}
 
 %option noyywrap
