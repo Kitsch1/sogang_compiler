@@ -98,12 +98,20 @@ var_decl        : type_spec identifier SEMI
                         $$->attr.name = savedName;
                         $$->child[0] = $1;
                     }
-                | type_spec identifier LSB arr_len RSB SEMI
+                | type_spec identifier
                     {
                         $$ = newDeclNode(ArrK);
                         $$->attr.arrayVar.name = savedName;
-                        $$->attr.arrayVar.length = savedLength;
                         $$->child[0] = $1;
+                    }
+                 LSB arr_len
+                    {
+                        $$ = $3;
+                        $$->attr.arrayVar.length = savedLength;
+                    }
+                 RSB SEMI
+                    {
+                        $$ = $6;
                     }
                 ;
 
@@ -119,52 +127,156 @@ type_spec       : INT
                     }
                 ;
 
-fun_decl        : type_spec ID LPAREN params RPAREN compound_stmt
+fun_decl        : type_spec identifier
+                    {
+                        $$ = newDeclNode(FuncK);
+                        $$->attr.name = savedName;
+                    }
+                 LPAREN params RPAREN compound_stmt
+                    {
+                        $$ = $3;
+                        $$->child[0] = $1;
+                        $$->child[1] = $5;
+                        $$->child[2] = $7;
+                    }
                 ;
             
 params          : param-list
-                | void
+                    {
+                        $$ = $1;
+                    }
+                | VOID
+                    {
+                        $$ = newTypeNode(VoidK);
+                        $$->attr.type = Void;
+                    }
                 ;
 
 param_list      : param_list COMMA param
+                    {
+                        YYSTYPE t = $1;
+                        if(t != NULL)
+                        {
+                            while(t->sibling)
+                            {
+                                t = t->sibling;
+                            }
+                            t->sibling = $3;
+                            $$ = $1;
+                        }
+                        else $$ = $3;
+                    }
                 | param
+                    {
+                        $$ = $1;
+                    }
                 ;
 
-param           : type_spec ID
-                | type_spec LSB RSB
+param           : type_spec identifier
+                    {
+                        $$ = newDeclNode(VarK);
+                        $$->attr.name = savedName;
+                        $$->child[0] = $1;
+                    }
+                | type_spec identifier LSB RSB
+                    {
+                        $$ = newDeclNode(ArrK);
+                        $$->attr.arrayVar.name = savedName;
+                        $$->attr.arrayVar.length = -1;
+                    }
                 ;
 
 compound_stmt   : LBRACE local_decl stmt_list RBRACE
+                    {
+                        $$ = newStmtNode(CompK);
+                        $$->child[0] = $2;
+                        $$->child[1] = $3;
+                    }
                 ;
 
 local_decl      : local_decl var_decl
+                    {
+                        YYSTYPE t = $1;
+                        if(t != NULL)
+                        {
+                            while(t->sibling)
+                            {
+                                t = t->sibling;
+                            }
+                            t->sibling = $2;
+                            $$ = $1;
+                        }
+                        else $$ = $2;
+                    }
                 | empty
+                    {
+                        $$ = $1;
+                    }
                 ;
 
 stmt_list       : stmt_list stmt
+                    {
+                        YYSTYPE t = $1;
+                        if(t != NULL)
+                        {
+                            while(t->sibling)
+                            {
+                                t = t->sibling;
+                            }
+                            t->sibling = $2;
+                            $$ = $1;
+                        }
+                        else $$ = $2;
+                    }
                 | empty
+                    {
+                        $$ = $1;
+                    }
                 ;
 
-stmt            : expr_stmt
-                | compound_stmt
-                | selection_stmt
-                | iteration_stmt
-                | return_stmt
+stmt            : expr_stmt         { $$ = $1; }
+                | compound_stmt     { $$ = $1; }
+                | selection_stmt    { $$ = $1; }
+                | iteration_stmt    { $$ = $1; }
+                | return_stmt       { $$ = $1; }
                 ;
 
-expr_stmt       : expr SEMI
-                | SEMI
+expr_stmt       : expr SEMI         { $$ = $1; }
+                | SEMI              { $$ = NULL; }
                 ;
 
 selection_stmt  : IF LPAREN expr RPAREN stmt
+                    {
+                        $$ = newStmtNode(SelectK);
+                        $$->child[0] = $3;
+                        $$->child[1] = $5;
+                    }
                 | IF LPAREN expr RPAREN stmt ELSE stmt
+                    {
+                        $$ = newSttmtNode(SelectK);
+                        $$->child[0] = $3;
+                        $$->child[1] = $5;
+                        $$->child[2] = $7;
+                    }
                 ;
 
 iteration_stmt  : WHILE LPAREN expr RPAREN stmt
+                    {
+                        $$ = newStmtNode(IterK);
+                        $$->child[0] = $3;
+                        $$->child[1] = $5;
+                    }
                 ;
 
 return_stmt     : RETURN SEMI
+                    {
+                        $$ = newStmtNode(RetK);
+                    }
                 | RETURN expr SEMI
+                    {
+                        $$ = newStmtNode(RetK);
+                        $$->child[0] = $2;
+                    }
                 ;
 
 expr            : var ASSIGN expr
