@@ -4,10 +4,7 @@ TARGET = project3_21
 OBJECTS = main.o util.o lex.o cm.tab.o
 
 $(TARGET): $(OBJECTS)
-	$(CC) $(CFLAGS) $(OBJECTS) -o $(TARGET)
-
-main.o: main.c globals.h util.h scan.h
-	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS) -lfl
+	$(CC) $(CFLAGS) $(OBJECTS) -o $(TARGET) -lfl
 
 util.o: util.c util.h globals.h 
 	$(CC) $(CFLAGS) -c util.c
