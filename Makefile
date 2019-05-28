@@ -16,7 +16,7 @@ lex.yy.c: tiny.l
 	flex tiny.l
 
 cminus.o: cm.tab.c cm.tab.h
-	$(CC) $(CFLAGS) -c cminus.c
+	$(CC) $(CFLAGS) -c cm.tab.c
 
 cm.tab.c cm.tab.h: cm.y
 	bison -d cm.y
