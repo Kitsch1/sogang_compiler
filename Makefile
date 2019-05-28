@@ -15,10 +15,10 @@ lex.o: lex.yy.c globals.h util.h scan.h
 lex.yy.c: tiny.l
 	flex tiny.l
 
-cminus.o: cminus.c cminus.h
+cminus.o: cm.tab.c cm.tab.h
 	$(CC) $(CFLAGS) -c cminus.c
 
-cminus.c cminus.h: cm.y
+cm.tab.c cm.tab.h: cm.y
 	bison -d cm.y
 
 clean :
