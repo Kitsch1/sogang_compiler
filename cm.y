@@ -105,13 +105,13 @@ var_decl        : type_spec identifier SEMI
                 | type_spec identifier
                     {
                         $$ = newDeclNode(ArrK);
-                        $$->attr.arrayVar.name = savedName;
+                        $$->attr.arr.name = savedName;
                         $$->child[0] = $1;
                     }
                  LSB arr_len
                     {
                         $$ = $3;
-                        $$->attr.arrayVar.length = savedLength;
+                        $$->attr.arr.length = savedLength;
                     }
                  RSB SEMI
                     {
@@ -185,8 +185,8 @@ param           : type_spec identifier
                 | type_spec identifier LSB RSB
                     {
                         $$ = newDeclNode(ArrK);
-                        $$->attr.arrayVar.name = savedName;
-                        $$->attr.arrayVar.length = -1;
+                        $$->attr.arr.name = savedName;
+                        $$->attr.arr.length = -1;
                     }
                 ;
 
