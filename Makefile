@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -w -std=gnu99
 TARGET = project3_21
-OBJECTS = main.o util.o lex.o cminus.o
+OBJECTS = main.o util.o lex.o cm.tab.o
 
 $(TARGET): $(OBJECTS)
 	$(CC) $(CFLAGS) $(OBJECTS) -o $(TARGET)
@@ -15,7 +15,7 @@ lex.o: lex.yy.c globals.h util.h scan.h
 lex.yy.c: tiny.l
 	flex tiny.l
 
-cminus.o: cm.tab.c cm.tab.h
+cm.tab.o: cm.tab.c cm.tab.h
 	$(CC) $(CFLAGS) -c cm.tab.c
 
 cm.tab.c cm.tab.h: cm.y
