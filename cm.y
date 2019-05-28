@@ -18,6 +18,9 @@ static int savedLength;
 static int savedLineNo;  /* ditto */
 static TreeNode * savedTree; /* stores syntax tree for later return */
 
+static int yyerror(char * message);
+static int yylex(void);
+
 %}
 
 /* need to add tokens */
