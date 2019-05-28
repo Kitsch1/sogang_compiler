@@ -41,6 +41,7 @@ static int yylex(void);
 %left   PLUS MINUS
 %right  LPAREN RPAREN LBRACE RBRACE LSB RSB
 
+%start program
 
 /* $$ is result */
 /* $n is n'th term in sytanx rule */
@@ -144,7 +145,7 @@ fun_decl        : type_spec identifier
                     }
                 ;
             
-params          : param-list
+params          : param_list
                     {
                         $$ = $1;
                     }
@@ -404,7 +405,7 @@ mulop           : TIMES
                     }
                 ;
 
-factor          : LPAREN epxr RPAREN
+factor          : LPAREN expr RPAREN
                     {
                         $$ = $2;
                     }
