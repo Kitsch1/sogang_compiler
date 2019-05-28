@@ -25,4 +25,4 @@ cm.tab.c cm.tab.h: cm.y
 	bison -d cm.y
 
 clean :
-	rm *.o lex.yy.c project3_21
+	rm *.o lex.yy.c project3_21 cm.tab.c cm.tab.h
