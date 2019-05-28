@@ -63,7 +63,7 @@ whitespace  [ \t\b]+
 		      if (c=='\n') lineno++;
 		      if ( c == '/') //break; /* End of Comment */
 					{
-						retur COMMENT;
+						return COMMENT;
 					}
 		    }
 		    if(c == EOF )
