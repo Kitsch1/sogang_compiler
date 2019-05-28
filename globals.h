@@ -13,7 +13,10 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
+#ifndef YYPARSER
 #include "cm.tab.h"
+#define ENDFILE 0
+#endif
 
 #ifndef FALSE
 #define FALSE 0
