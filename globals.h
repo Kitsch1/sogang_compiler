@@ -25,17 +25,17 @@
 /* MAXRESERVED : the number of reserved words */
 #define MAXRESERVED 6
 
-typedef enum
-	/* book-keeping tokens */
-	{ENDFILE,ERROR,COM_ERROR,COMMENT,
-	/* reserved words */
-	ELSE,IF,INT,RETURN,VOID,WHILE,
-	/* multicharacter tokens */
-	ID,NUM,
-	/* special symbols */
-	PLUS,MINUS,TIMES,OVER,LT,LEQ,RT,REQ,EQ,NEQ,ASSIGN,SEMI,
-	COMMA,LPAREN,RPAREN,LSB,RSB,LBRACE,RBRACE
-	} TokenType;
+// typedef enum
+// 	/* book-keeping tokens */
+// 	{ENDFILE,ERROR,COM_ERROR,COMMENT,
+// 	/* reserved words */
+// 	ELSE,IF,INT,RETURN,VOID,WHILE,
+// 	/* multicharacter tokens */
+// 	ID,NUM,
+// 	/* special symbols */
+// 	PLUS,MINUS,TIMES,OVER,LT,LEQ,RT,REQ,EQ,NEQ,ASSIGN,SEMI,
+// 	COMMA,LPAREN,RPAREN,LSB,RSB,LBRACE,RBRACE
+// 	} TokenType;
 
 extern FILE* source; /* source code text file */
 extern FILE* listing; /* listing output text file */

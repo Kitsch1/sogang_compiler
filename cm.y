@@ -31,6 +31,9 @@ static int yylex(void);
 
 %token  SEMI
 
+%token  ERROR
+%token  COMMENT COMMENT_ERROR
+
 /**/
 
 %left   COMMA
